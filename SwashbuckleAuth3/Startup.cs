@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using SwashbuckleAuth3.Filter;
 
 namespace SwashbuckleAuth3
 {
@@ -40,17 +41,18 @@ namespace SwashbuckleAuth3
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey
                 });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    [new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    }] = new string[] { }
-                });
+                c.OperationFilter<SecurityRequirementsOperationFilter>();
+                //c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                //{
+                //    [new OpenApiSecurityScheme
+                //    {
+                //        Reference = new OpenApiReference
+                //        {
+                //            Type = ReferenceType.SecurityScheme,
+                //            Id = "Bearer"
+                //        }
+                //    }] = new string[] { }
+                //});
             });
         }
 
